@@ -1,0 +1,25 @@
+version: '3.3'
+
+services:
+  tabletop-tales:
+    image: ghcr.io/jjemus/tabletop_tales:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - traefik
+    deploy:
+      labels:
+      - traefik.enable=true
+      - traefik.http.services.portainer.loadbalancer.server.port=3000
+      - traefik.http.routers.portainer.tls=true
+      - traefik.http.routers.portainer.tls.certresolver=myresolver
+      - traefik.http.routers.portainer.rule=Host(`tales.thurnaround.de`)
+      - traefik.http.routers.portainer.service=tabletop-tales
+      - traefik.http.routers.portainer.entrypoints=websecure
+      - traefik.docker.network=traefik
+      mode: replicated
+      replicas: 1
+
+networks:
+  traefik:
+    external: true
