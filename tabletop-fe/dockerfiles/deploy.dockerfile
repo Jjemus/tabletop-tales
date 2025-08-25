@@ -2,7 +2,7 @@ FROM alpine:latest AS builder
 
 WORKDIR /app
 
-COPY ./../. .
+COPY ../.. .
 
 USER root
 
